@@ -9,7 +9,3 @@ def broot_force_search(arr, target):
 
     return positions
 
-text = "ABCDABCDAB"
-target = "AB"
-
-print(broot_force_search(text, target))
