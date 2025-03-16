@@ -1,0 +1,34 @@
+Co je to n-gram?
+-sekvence 𝑛 po sobě jdoucích slov nebo znaků v textu.
+
+Jak se počítají frekvence unigramů, bigramů a trigramů?
+- počet výskytů daného n-gramu v textu
+
+Jak se počítá pravděpodobnost výskytu slova v rámci n-gramového modelu?
+- Podmíněná pravděpodobnost výskytu slova 𝑤 po kontextu k. Tedy např "já jsem" P("jsem"|"já") = počet výskýtů všech ("já jsem") / počet výskytu ("já)
+
+Co je Laplaceovo vyhlazování a proč se používá?
+- Laplaceovo vyhlazování přidává k počítání pravděpodobností malou hodnotu (např. 1), aby se zabránilo nulovým pravděpodobnostem u neviděných n-gramů.
+
+Jak lze použít bigramový model pro automatické doplňování slov?
+- Na základě předchozího slova vybereme nejpravděpodobnější následující slovo podle pravděpodobnosti z bigramového modelu.
+
+Jak se určuje nejpravděpodobnější následující slovo?
+- Vybereme slovo s nejvyšší pravděpodobností např P("jsem"|"já") = 0,9 a P("umím"|"já") = 0,1
+
+Jak lze trigramový model využít pro generování textu?
+
+Jak lze vylepšit kvalitu generovaného textu?
+- nevybírat nejpravděpodobnější slovo ale např náhodně ať se text neopakuje.
+
+Co je to perplexity a jak se vypočítává?
+- Perplexity měří, jak dobře model předpovídá testovací data. Nižší hodnota znamená lepší model
+
+Jaká je interpretace hodnoty perplexity pro jazykový model?
+Nízká perplexity → model lépe předpovídá slova.
+Vysoká perplexity → model je špatný (často naráží na neznámá slova).
+
+Jak se perplexity mění s rostoucí velikostí n-gramu?
+Unigramy: vysoká perplexity, protože nepoužívají kontext.
+Bigramy: nižší perplexity, protože berou v úvahu předchozí slovo.
+Trigramy: často nižší perplexity než bigramy, ale pokud je málo dat, mohou mít vyšší perplexity kvůli neznámým kombinacím slov. 
