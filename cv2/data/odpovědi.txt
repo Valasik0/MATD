@@ -1,0 +1,19 @@
+1. Kdy se KMP chová lépe než BMH?
+Opakující se vzory v textu: KMP je efektivnější, protože využívá LPS (Longest Prefix Suffix) a vyhýbá se zbytečným porovnáním.
+Malá abeceda
+Hledání v textu s velmi opakujícími se podřetězci: Pokud má text mnoho podobných částí, 
+BMH nemusí efektivně poskakovat, zatímco KMP efektivně využije LPS pole.
+
+2. Kdy je BMH rychlejší než Brute Force?
+Dlouhé vzory: Hrubá síla se posouvá vždy jen o jeden znak, zatímco BMH může přeskočit více znaků najednou.
+Texty s velkou abecedou (např. náhodný text s mnoha různými znaky): BMH může často poskočit o délku celého vzoru, 
+protože pravděpodobnost nalezení stejného znaku na nechtěné pozici je menší.
+
+3. Kdy je KMP nevýhodné používat?
+Krátké vzory: Výpočet LPS pole trvá O(m), což může být zbytečné pro krátké vzory.
+Velká abeceda a náhodné texty: KMP se posouvá pouze na základě vzoru, zatímco BMH se může posunout o větší kroky podle obsahu textu.
+
+4. Jak algoritmy fungují na textech s opakujícími se vzory?
+Brute Force: Bude neefektivní, protože při každém posunu znovu prochází celým vzorem.
+KMP: Funguje dobře, protože LPS pole umožňuje efektivně přeskočit části vzoru, které už byly porovnány.
+BMH: Je méně efektivní než obvykle, protože opakující se znaky v textu omezují velké skoky. Pokud se vzor často opakuje, bude BMH provádět více porovnání.
