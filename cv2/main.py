@@ -14,11 +14,15 @@ with open("data\\long.txt", "r", encoding="utf-8") as f:
 with open("data\\short.txt", "r", encoding="utf-8") as f:
     short = f.read()
 
+with open("data\\alphabet.txt", "r", encoding="utf-8") as f:
+    alphabet = f.read()
+
 results = {
     "Dataset": ["DNA-sequence", "DNA-sequence", "DNA-sequence", 
                 "long", "long", "long", 
-                "short", "short", "short"],
-    "Algorithm": ["Brute Force", "KMP", "BMH"] * 3,
+                "short", "short", "short",
+                "alphabet", "alphabet", "alphabet"],
+    "Algorithm": ["Brute Force", "KMP", "BMH"] * 4,
     "Comparisons": [
         brute_force_search(DNA_sequence, "AGCT")["comparisons"],
         kmp_search(DNA_sequence, "AGCT")["comparisons"],
@@ -30,7 +34,11 @@ results = {
 
         brute_force_search(short, "Můj")["comparisons"],
         kmp_search(short, "Můj")["comparisons"],
-        bmh_search(short, "Můj")["comparisons"]
+        bmh_search(short, "Můj")["comparisons"],
+
+        brute_force_search(alphabet, "abababab")["comparisons"],
+        kmp_search(alphabet, "abababab")["comparisons"],
+        bmh_search(alphabet, "abababab")["comparisons"]
     ]
 }
 
