@@ -14,36 +14,48 @@ with open("data\\long.txt", "r", encoding="utf-8") as f:
 with open("data\\short.txt", "r", encoding="utf-8") as f:
     short = f.read()
 
-results = {
-    "Dataset": ["DNA-sequence", "DNA-sequence", "DNA-sequence", 
-                "long", "long", "long", 
-                "short", "short", "short"],
-    "Algorithm": ["Brute Force", "KMP", "BMH"] * 3,
-    "Comparisons": [
-        brute_force_search(DNA_sequence, "AGCT")["comparisons"],
-        kmp_search(DNA_sequence, "AGCT")["comparisons"],
-        bmh_search(DNA_sequence, "AGCT")["comparisons"],
+with open("data\\alphabet.txt", "r", encoding="utf-8") as f:
+    alphabet = f.read()
 
-        brute_force_search(long, "ale")["comparisons"],
-        kmp_search(long, "ale")["comparisons"],
-        bmh_search(long, "ale")["comparisons"],
-
-        brute_force_search(short, "Můj")["comparisons"],
-        kmp_search(short, "Můj")["comparisons"],
-        bmh_search(short, "Můj")["comparisons"]
-    ]
+patterns = {
+    "DNA-sequence": ["AGCT", "TTGA", "ATATAACAACCG"],
+    "long": ["ale", "a", "které"],
+    "short": ["Můj", "pro", "a"],
+    "alphabet": ["abab", "ba", "abababababababababababababababababababababa"]
 }
+
+# Výsledky testů
+results = {"Dataset": [], "Pattern": [], "Algorithm": [], "Comparisons": []}
+
+# Spuštění testů pro každý dataset a jeho vzory
+for dataset_name, dataset in zip(patterns.keys(), [DNA_sequence, long, short, alphabet]):
+    for pattern in patterns[dataset_name]:
+        for algorithm_name, algorithm in [("Brute Force", brute_force_search), 
+                                          ("KMP", kmp_search), 
+                                          ("BMH", bmh_search)]:
+            result = algorithm(dataset, pattern)
+            results["Dataset"].append(dataset_name)
+            results["Pattern"].append(pattern)
+            results["Algorithm"].append(algorithm_name)
+            results["Comparisons"].append(result["comparisons"])
 
 df = pd.DataFrame(results)
 print(df)
 
 sns.set_theme(style="whitegrid")
 
-plt.figure(figsize=(10, 6))
-ax = sns.barplot(x="Dataset", y="Comparisons", hue="Algorithm", data=df, palette="viridis")
-
-plt.xlabel("Typ datasetu")
-plt.ylabel("Počet porovnání znaků")
-plt.title("Porovnání výkonu algoritmů")
-plt.legend(title="Algoritmus")
-plt.show()
+for dataset_name in df["Dataset"].unique():
+    dataset_df = df[df["Dataset"] == dataset_name]
+    
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x="Pattern", y="Comparisons", hue="Algorithm", data=dataset_df, palette="viridis")
+    
+    plt.xlabel("Vzor")
+    plt.ylabel("Počet porovnání znaků")
+    plt.title(f"Porovnání výkonu algoritmů – {dataset_name}")
+    plt.xticks(rotation=45)
+    
+    plt.legend(title="Algoritmus")
+    plt.ylim(0, df["Comparisons"].max() * 1.1)
+    
+    plt.show()
