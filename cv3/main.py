@@ -42,34 +42,45 @@ def count_frequency(data):
 
     return frequency
 
-def generate_variants(word):
+def generate_variants(word, print_variants=False):
     variants = set()
     alphabet = "aábcčdďeéěfghiíjklmnňoópqrřsštťuúůvwxyýzž"
     
+    #insert
     for i in range(len(word) + 1):
         for letter in alphabet:
             variants.add(word[:i] + letter + word[i:])
     
+    #delete
     for i in range(len(word)):
         variants.add(word[:i] + word[i+1:])
     
+    #replace
     for i in range(len(word)):
         for letter in alphabet:
             variants.add(word[:i] + letter + word[i+1:])
     
+    #swap
     for i in range(len(word) - 1):
         variants.add(word[:i] + word[i+1] + word[i] + word[i+2:])
+
+    variants_count = len(variants)
+
+    if print_variants:
+        print(f'{word} n-{len(word)}: {variants_count} ')
     
-    return variants
+    return variants, variants_count
 
 
 def correct_word(word, frequency):
-    variants = generate_variants(word)
+    variants, variants_count = generate_variants(word)
+
+    print(f'{word}: {variants_count} ')
 
     valid_variants = {w: frequency[w] for w in variants if w in frequency}
     
     if valid_variants:
-        return max(valid_variants, key=valid_variants.get)
+        return max(valid_variants, key=valid_variants.get)  
     
     return word
 
@@ -98,7 +109,7 @@ def correct_sentence(sentence, frequency, method):
 data = load_data("data\\text.txt") 
 frequency = count_frequency(data)
 
-sentence = "dneska si dám oběť v restauarci a pak půjdu zpěť domů kde se podívám na televezí."
+sentence = "dneska si dám oběť v restauarci a pak půjdu zpěť domů kde se podívám na televezí"
 
 start1 = time.time()
 corrected1 = correct_sentence(sentence, frequency, "levenstain")
@@ -112,3 +123,7 @@ generate_time = end2 - start2
 
 print(f"Levenstain: {corrected1}: {levenstain_time:.4f}s")
 print(f"Generated: {corrected2}: {generate_time:.4f}s")
+
+test_words = ["a", "ab", "abc", "abcd", "abcde", "abcdef"]
+for word in test_words:
+    generate_variants(word, print_variants=True)
