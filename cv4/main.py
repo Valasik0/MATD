@@ -17,8 +17,20 @@ def load_and_process_data():
                 inverted_index[word][i] += 1
     return inverted_index
 
-query = "milk AND king AND (needels OR sugar) AND (NOT salad AND queen)"
-parser = BooleanQueryParser(query, load_and_process_data())
+def analyze_index(inverted_index):
+    unique_tokens = len(inverted_index)
+    avg_list_length = sum(len(v) for v in inverted_index.values()) / unique_tokens if unique_tokens > 0 else 0
+    total_records = sum(len(docs) for docs in inverted_index.values())
+    
+    print(f"Počet unikátních tokenů: {unique_tokens}")
+    print(f"Průměrná délka seznamů: {avg_list_length:.2f}")
+    print(f"Celkový počet záznamů: {total_records}")
+
+
+inverted_index = load_and_process_data()
+analyze_index(inverted_index)
+query = "milk AND king AND (needels OR sugar) NOT (salad AND octopus)"
+parser = BooleanQueryParser(query, inverted_index)
 result = parser.parse()
 
 print(f"Query: {query}")

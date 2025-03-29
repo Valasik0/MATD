@@ -9,7 +9,10 @@ class BooleanQueryParser:
         return query.replace('(', ' ( ').replace(')', ' ) ').split()
 
     def parse(self):
-        return self.parse_expression()
+        result = self.parse_expression()
+        if result == set():
+            return "Nothing found"
+        return result
 
     def parse_expression(self):
         result = self.parse_term()
