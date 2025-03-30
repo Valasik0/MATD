@@ -26,12 +26,33 @@ def analyze_index(inverted_index):
     print(f"Průměrná délka seznamů: {avg_list_length:.2f}")
     print(f"Celkový počet záznamů: {total_records}")
 
+def search_interface(inverted_index):
+    print("Pro ukončení zadejte 'exit' nebo 'quit'.")
+    
+    while True:
+        query = input("\nZadejte dotaz: ")
+        if query.lower() in ['exit', 'quit']:
+            break
+        
+        try:
+            parser = BooleanQueryParser(query, inverted_index)
+            result = parser.parse()
+            
+            print(f"Nalezeno {len(result)} dokumentů:")
+            for doc_id in result:
+                try:
+                    with open(f"data\\{doc_id}.txt", "r", encoding="utf-8") as file:
+                        first_line = file.readline().strip()
+                        print(f"- Dokument {doc_id}: {first_line[:100]}...")
+                except FileNotFoundError:
+                    print(f"- Dokument {doc_id}: [Soubor nenalezen]")
+        except Exception as e:
+            print(f"Chyba při zpracování dotazu: {e}")
+
 
 inverted_index = load_and_process_data()
+search_interface(inverted_index)
+
 analyze_index(inverted_index)
 query = "milk AND king AND (needels OR sugar) NOT (salad AND octopus)"
-parser = BooleanQueryParser(query, inverted_index)
-result = parser.parse()
 
-print(f"Query: {query}")
-print(f"Result: {result}")
