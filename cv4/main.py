@@ -1,6 +1,6 @@
 from collections import defaultdict
 from query_parser import BooleanQueryParser
-#Boolean Information Retrieval – Invertovaný index a dotazy
+
 stop_words = set(["i", "he", "she", "is", "a", "some", "for", "the", "to", "it", "this", "of", "and", 'or', 'on', 'in', 'at', 'an', 'as', 'by', 'with', 'that', 'from', 'about', 'be', 'are', 'was', 'were', 'has', 'have', 'had', 'not', 'but', 'if', 'then'])
 
 def load_and_process_data():
@@ -37,6 +37,10 @@ def search_interface(inverted_index):
         try:
             parser = BooleanQueryParser(query, inverted_index)
             result = parser.parse()
+
+            if result == "Nothing found":
+                print("Nebyly nalezeny žádné dokumenty.")
+                continue
             
             print(f"Nalezeno {len(result)} dokumentů:")
             for doc_id in result:
