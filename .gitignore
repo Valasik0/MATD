@@ -1,2 +1,47 @@
 *.txt
 __pycache__/
+
+# Visual Studio
+.vs/
+.vscode/
+.idea/
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]Release/
+[Dd]ReleasePublic/
+x64/
+x86/
+x64/Debug/
+x64/Release/
+x86/Debug/
+x86/Release/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Build directories
+*.vspscc
+*.vssscc
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+Makefile
+cmake_install.cmake
