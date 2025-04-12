@@ -13,6 +13,8 @@ size_t EliasGammaEncoder::getOriginalSizeBits() {
 }
 
 std::vector<bool> EliasGammaEncoder::encode() {
+    encodedBits.clear();
+
 	for (uint32_t num : nums) {
 		std::bitset<32> binary(num);
 		std::string binaryString = binary.to_string();
@@ -31,7 +33,7 @@ std::vector<bool> EliasGammaEncoder::encode() {
     return encodedBits;
 }
 
-std::vector<uint32_t>EliasGammaEncoder::decode(std::vector<bool> sequence) {
+std::vector<uint32_t> EliasGammaEncoder::decode(std::vector<bool> sequence) {
     std::vector<uint32_t> decodedNumbers;
     size_t i = 0;
 
