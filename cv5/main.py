@@ -26,6 +26,7 @@ def calculate_tf(data):
         total_words = len(words)
         result[doc_id] = {word: count / total_words for word, count in word_counts.items()}
     return result
+#dict {doc_id: {word: TF_value}} TF_value = count of word in doc / total words in doc
 
 def calculate_idf(data):
     idf = {}
@@ -37,6 +38,7 @@ def calculate_idf(data):
         doc_count = sum(1 for words in data.values() if word in words)
         idf[word] = math.log((N_docs) / (doc_count))
     return idf
+#dict {word: IDF_value} IDF_value = log(N_docs / count of docs with word)
 
 
 def calculate_tf_idf(tf_dict, idf_dict):
@@ -113,7 +115,7 @@ def compute_all_cosine_similarities(tf_idf_dict):
     most_similar_docs = None
 
     for i in range(n):
-        for j in range(i + 1, n):  # Porovnáváme jen unikátní dvojice
+        for j in range(i + 1, n):
             sim = cosine_similarity(doc_vectors[i], doc_vectors[j])
             similarities[(doc_ids[i], doc_ids[j])] = sim
             
@@ -141,12 +143,11 @@ for sorted_doc in sorted_docs:
 
 """
 Jak by se výsledky změnily, kdyby se použilo jen tf bez idf? - 
-  - častá slova by měly větší váhua u uměle by zvyšovala podobnost dokumentů
+  - častá slova by měly větší váhu a u uměle by zvyšovala podobnost dokumentů
   - delší dokumenty mají více slov tím pádem i vyšší tf skore, to může zvýhodnit delší texty
 
 Uveďte příklad oblasti, témata, kde by častá slova mohla být navzdory vysoké frekvenci velmi důležitá.
-Například v oblasti medicíny nebo právních dokumentů, kde se často používají specifické termíny, které mohou mít zásadní význam pro pochopení textu.
-    - odborné text např komprimace dat (entropie, komprese, kodování)
+    - odborné texty např komprimace dat (entropie, komprese, kodování), kde se často používají specifické termíny, které mohou mít zásadní význam pro pochopení textu.
 Vysvětlete, proč v takovém případě může být použití klasického idf nevhodné.
     - částé slova klíčove pro tuto oblast by byla považována za běžná a tím pádem by byla penalizována, což by vedlo k nižší relevanci výsledků.
 Navrhněte úpravu výpočtu, která by tento problém zmírnila.
