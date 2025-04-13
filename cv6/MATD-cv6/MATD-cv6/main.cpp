@@ -34,15 +34,15 @@ int main() {
 
 	std::cout << std::endl << "------------------------------" << std::endl;
 
-	std::vector<uint32_t> numsFib = { 1, 2, 3, 4, 5, 10, 19 };
-	FibonacciEncoder fe(numsFib);
+	FibonacciEncoder fe(nums);
 	std::vector<bool> encodedFib = fe.encode();
 	fe.printEncoded();
 
-	std::vector<uint32_t> decodedFib = fe.decode(encodedFib);
+	std::cout << "Original size in bits: " << fe.getOriginalSizeBits() << std::endl;
+	std::cout << "Encoded size in bits: " << fe.getEncodedSizeBits() << std::endl;
 
 	std::cout << "Decoded sequence: ";
-	for (uint32_t val : decodedFib)
+	for (uint32_t val : fe.decode(encodedFib))
 		std::cout << val << " ";
 	std::cout << std::endl;
 

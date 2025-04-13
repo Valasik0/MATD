@@ -6,8 +6,9 @@ FibonacciEncoder::FibonacciEncoder(const std::vector<uint32_t>& nums) : Encoder(
 
 std::vector<uint32_t> FibonacciEncoder::fibonacci(uint32_t max) {
     std::vector<uint32_t> fib = { 1, 2 };
-    while (fib.back() <= max) {
+    while (fib.back() < max) {
         uint32_t next = fib[fib.size() - 1] + fib[fib.size() - 2];
+        if (next > max) break;
         fib.push_back(next);
     }
     return fib;
@@ -80,7 +81,7 @@ std::vector<uint32_t> FibonacciEncoder::decode(const std::vector<bool>& sequence
         
         // Dekódujeme èíslo
         uint32_t num = 0;
-        std::vector<uint32_t> fib = fibonacci(UINT32_MAX); // Generujeme dostateènì velkou Fibonacciho posloupnost
+        std::vector<uint32_t> fib = fibonacci(1000000); // Generujeme dostateènì velkou Fibonacciho posloupnost
         
         // Seèteme Fibonacciho èísla odpovídající jednièkám v kódovém slovì
         // (ignorujeme poslední jednièku, která je jen oddìlovaè)
