@@ -128,11 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EliasGammaEncoder.cpp" />
+    <ClCompile Include="FibonacciEncoder.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UnaryEncoder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EliasGammaEncoder.h" />
+    <ClInclude Include="FibonacciEncoder.h" />
     <ClInclude Include="UnaryEncoder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
