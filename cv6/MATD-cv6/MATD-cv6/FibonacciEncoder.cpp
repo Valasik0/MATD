@@ -1,7 +1,7 @@
 // FibonacciEncoder.cpp
 #include "FibonacciEncoder.h"
 
-FibonacciEncoder::FibonacciEncoder(const std::vector<uint32_t>& nums) : Encoder(nums) {
+FibonacciEncoder::FibonacciEncoder() : Encoder() {
 }
 
 std::vector<uint32_t> FibonacciEncoder::fibonacci(uint32_t max) {
@@ -14,10 +14,11 @@ std::vector<uint32_t> FibonacciEncoder::fibonacci(uint32_t max) {
     return fib;
 }
 
-std::vector<bool> FibonacciEncoder::encode() {
+std::vector<bool> FibonacciEncoder::encode(const std::vector<uint32_t>& data) {
     encodedBits.clear();
+    this->nums = data;
 
-    for (uint32_t num : nums) {
+    for (uint32_t num : data) {
         if (num == 0) {
             // Speciální pøípad pro 0
             encodedBits.push_back(1);

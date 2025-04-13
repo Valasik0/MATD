@@ -1,8 +1,7 @@
 #include "Encoder.h"
 #include <iostream>
 
-Encoder::Encoder(const std::vector<uint32_t>& nums) {
-    this->nums = nums;
+Encoder::Encoder() {
 }
 
 void Encoder::printEncoded() {

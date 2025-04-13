@@ -7,7 +7,7 @@ private:
     std::vector<uint32_t> fibonacci(uint32_t max);
 
 public:
-    FibonacciEncoder(const std::vector<uint32_t>& nums);
-    std::vector<bool> encode() override;
+    FibonacciEncoder();
+    std::vector<bool> encode(const std::vector<uint32_t>& data) override;
     std::vector<uint32_t> decode(const std::vector<bool>& sequence) override;
 };
