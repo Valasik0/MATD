@@ -4,7 +4,7 @@
 
 class UnaryEncoder : public Encoder {
 public:
-    UnaryEncoder(const std::vector<uint32_t>& nums);
-    std::vector<bool> encode() override;
+    UnaryEncoder();
+    std::vector<bool> encode(const std::vector<uint32_t>& data) override;
     std::vector<uint32_t> decode(const std::vector<bool>& sequence) override;
 };

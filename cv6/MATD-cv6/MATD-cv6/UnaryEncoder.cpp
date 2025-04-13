@@ -1,12 +1,13 @@
-// UnaryEncoder.cpp
 #include "UnaryEncoder.h"
 
-UnaryEncoder::UnaryEncoder(const std::vector<uint32_t>& nums) : Encoder(nums) {
+UnaryEncoder::UnaryEncoder() : Encoder() {
 }
 
-std::vector<bool> UnaryEncoder::encode() {
+std::vector<bool> UnaryEncoder::encode(const std::vector<uint32_t>& data) {
     encodedBits.clear();
-    for (uint32_t num : nums) {
+    this->nums = data;
+
+    for (uint32_t num : data) {
         for (uint32_t i = 0; i < num; ++i)
             encodedBits.push_back(0);
         encodedBits.push_back(1);
