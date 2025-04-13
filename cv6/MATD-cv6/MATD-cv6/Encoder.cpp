@@ -18,3 +18,4 @@ size_t Encoder::getEncodedSizeBits() {
 size_t Encoder::getOriginalSizeBits() {
     return sizeof(uint32_t) * nums.size() * 8;
 }
+

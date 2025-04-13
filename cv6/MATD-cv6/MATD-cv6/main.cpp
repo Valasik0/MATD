@@ -5,10 +5,11 @@
 #include <unordered_map>
 #include <algorithm>
 #include <cstdlib> 
-
+#include <functional>
 #include "UnaryEncoder.h"
 #include "EliasGammaEncoder.h"
 #include "FibonacciEncoder.h"
+#include "Encoder.h"
 
 std::vector<std::string> generateRandomWords(int count, int min_len, int max_len) {
 	std::vector<std::string> words;
@@ -68,14 +69,6 @@ std::vector<uint32_t> deltaEncode(const std::vector<uint32_t>& sorted) {
 	return deltas;
 }
 
-void applyDeltaEncoding(std::unordered_map<std::string, std::vector<uint32_t>>& index) {
-	for (auto& entry : index) {
-		std::vector<uint32_t>& docIDs = entry.second;
-		std::sort(docIDs.begin(), docIDs.end());
-		docIDs = deltaEncode(docIDs);
-	}
-}
-
 void printInvertedIndex(std::unordered_map<std::string, std::vector<uint32_t>>& invertedIndex) {
 	std::cout << "\nInverted index:\n";
 	for (auto idx : invertedIndex) {
@@ -87,33 +80,14 @@ void printInvertedIndex(std::unordered_map<std::string, std::vector<uint32_t>>& 
 	}
 }
 
-void compareSizes(const std::unordered_map<std::string, std::vector<uint32_t>>& invertedIndex) {
-	std::cout << "Original size in bytes: " << std::endl;
-
-	for (const auto& entry : invertedIndex) {
-		const auto& docIDs = entry.second;
-		std::cout << "Word: " << entry.first << ", Original size in bytes: " << docIDs.size() * sizeof(uint32_t) << " bytes" << std::endl;
-
-		// Unary Encoding
-		UnaryEncoder ue(docIDs);
-		std::vector<bool> encodedUnary = ue.encode();
-		std::cout << "Unary encoded size in bits for word '" << entry.first << "': " << ue.getEncodedSizeBits() << " bits" << std::endl;
-		std::cout << "Unary encoded size in bytes: " << encodedUnary.size() / 8 << " bytes" << std::endl;
-
-		// Elias Gamma Encoding
-		EliasGammaEncoder eg(docIDs);
-		std::vector<bool> encodedGamma = eg.encode();
-		std::cout << "Elias Gamma encoded size in bits for word '" << entry.first << "': " << eg.getEncodedSizeBits() << " bits" << std::endl;
-		std::cout << "Elias Gamma encoded size in bytes: " << encodedGamma.size() / 8 << " bytes" << std::endl;
-
-		// Fibonacci Encoding
-		FibonacciEncoder fe(docIDs);
-		std::vector<bool> encodedFib = fe.encode();
-		std::cout << "Fibonacci encoded size in bits for word '" << entry.first << "': " << fe.getEncodedSizeBits() << " bits" << std::endl;
-		std::cout << "Fibonacci encoded size in bytes: " << encodedFib.size() / 8 << " bytes" << std::endl;
+void applyDeltaEncoding(std::unordered_map<std::string, std::vector<uint32_t>>& index) {
+	for (auto& entry : index) {
+		std::vector<uint32_t>& docIDs = entry.second;
+		std::sort(docIDs.begin(), docIDs.end());
+		docIDs = deltaEncode(docIDs);
 	}
-}
 
+}
 
 int main() {
 	std::vector<uint32_t> nums = { 1, 2, 3, 4, 5 };
@@ -158,19 +132,17 @@ int main() {
 
 	std::cout << std::endl << "------------------------------" << std::endl;
 
-	std::vector<std::string> words = generateRandomWords(1000, 3, 6);
-	auto pairs = generateWordDocPairs(words, 10000, 1000000);
+	std::vector<std::string> words = generateRandomWords(20, 3, 6);
+	auto pairs = generateWordDocPairs(words, 20, 25);
 
 	std::unordered_map<std::string, std::vector<uint32_t>> invertedIndex;
-	buildInvertedIndex(pairs, invertedIndex);
+	buildInvertedIndex(pairs, invertedIndex);	
 
-	compareSizes(invertedIndex);
-	
+	printInvertedIndex(invertedIndex);
 
 	applyDeltaEncoding(invertedIndex);
-	printInvertedIndex(invertedIndex);
-	
 
+	printInvertedIndex(invertedIndex);
 
 	return 0;
 }
