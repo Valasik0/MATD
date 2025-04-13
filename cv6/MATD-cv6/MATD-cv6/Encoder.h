@@ -16,5 +16,9 @@ public:
     void printEncoded();
     size_t getEncodedSizeBits();
     size_t getOriginalSizeBits();
+    void setData(const std::vector<uint32_t>& newData) {
+        nums = newData;
+        encodedBits.clear();
+    }
 };
 
