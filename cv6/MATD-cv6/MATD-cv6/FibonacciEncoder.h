@@ -1,19 +1,13 @@
+// FibonacciEncoder.h
 #pragma once
-#include <vector>
+#include "Encoder.h"
 
-class FibonacciEncoder
-{
+class FibonacciEncoder : public Encoder {
 private:
-	std::vector<uint32_t> nums;
-	std::vector<bool> encodedBits;
+    std::vector<uint32_t> fibonacci(uint32_t max);
 
 public:
-	FibonacciEncoder(std::vector<uint32_t> nums);
-	std::vector<bool> encode();
-	std::vector<uint32_t> decode(std::vector<bool> sequence);
-	void printEncoded();
-	size_t getEncodedSizeBits();
-	size_t getOriginalSizeBits();
+    FibonacciEncoder(const std::vector<uint32_t>& nums);
+    std::vector<bool> encode() override;
+    std::vector<uint32_t> decode(const std::vector<bool>& sequence) override;
 };
-
-

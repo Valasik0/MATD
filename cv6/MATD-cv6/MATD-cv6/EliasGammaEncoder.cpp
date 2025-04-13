@@ -1,39 +1,32 @@
+// EliasGammaEncoder.cpp
 #include "EliasGammaEncoder.h"
-#include <iostream>
 #include <bitset>
 
-
-EliasGammaEncoder::EliasGammaEncoder(std::vector<uint32_t> nums) {
-	this->nums = nums;
-}
-
-size_t EliasGammaEncoder::getOriginalSizeBits() {
-	size_t size = sizeof(uint32_t) * nums.size() * 8;
-	return size;
+EliasGammaEncoder::EliasGammaEncoder(const std::vector<uint32_t>& nums) : Encoder(nums) {
 }
 
 std::vector<bool> EliasGammaEncoder::encode() {
     encodedBits.clear();
 
-	for (uint32_t num : nums) {
-		std::bitset<32> binary(num);
-		std::string binaryString = binary.to_string();
-		binaryString = binaryString.substr(binaryString.find('1'));
+    for (uint32_t num : nums) {
+        std::bitset<32> binary(num);
+        std::string binaryString = binary.to_string();
+        binaryString = binaryString.substr(binaryString.find('1'));
 
-		uint32_t n = binaryString.length();
-		std::string unaryPart(n - 1, '0');
+        uint32_t n = binaryString.length();
+        std::string unaryPart(n - 1, '0');
 
-		std::string eliasGammaNumber = unaryPart + binaryString;
+        std::string eliasGammaNumber = unaryPart + binaryString;
 
-		for (char bit : eliasGammaNumber) {
-			encodedBits.push_back(bit - '0');
-		}
-	}
+        for (char bit : eliasGammaNumber) {
+            encodedBits.push_back(bit - '0');
+        }
+    }
 
     return encodedBits;
 }
 
-std::vector<uint32_t> EliasGammaEncoder::decode(std::vector<bool> sequence) {
+std::vector<uint32_t> EliasGammaEncoder::decode(const std::vector<bool>& sequence) {
     std::vector<uint32_t> decodedNumbers;
     size_t i = 0;
 
@@ -56,14 +49,4 @@ std::vector<uint32_t> EliasGammaEncoder::decode(std::vector<bool> sequence) {
     }
 
     return decodedNumbers;
-}
-
-void EliasGammaEncoder::printEncoded() {
-	for (bool bit : encodedBits)
-		std::cout << bit;
-	std::cout << std::endl;
-}
-
-size_t EliasGammaEncoder::getEncodedSizeBits() {
-	return encodedBits.size();
 }

@@ -1,17 +1,10 @@
 #pragma once
 #include <vector>
+#include "Encoder.h"
 
-class UnaryEncoder {
-private:
-    std::vector<uint32_t> nums;
-    std::vector<bool> encodedBits;
-
+class UnaryEncoder : public Encoder {
 public:
-    UnaryEncoder(std::vector<uint32_t> nums);
-
-    void encode();
-    std::vector<uint32_t> decode(std::vector<bool> sequence);
-    void printEncoded();
-    size_t getEncodedSizeBits();
-    size_t getOriginalSizeBits();
+    UnaryEncoder(const std::vector<uint32_t>& nums);
+    std::vector<bool> encode() override;
+    std::vector<uint32_t> decode(const std::vector<bool>& sequence) override;
 };

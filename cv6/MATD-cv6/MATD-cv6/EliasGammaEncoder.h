@@ -1,17 +1,10 @@
+// EliasGammaEncoder.h
 #pragma once
-#include <vector>
-class EliasGammaEncoder
-{
-	private:
-		std::vector<uint32_t> nums;
-		std::vector<bool> encodedBits;
+#include "Encoder.h"
 
-	public:
-		EliasGammaEncoder(std::vector<uint32_t> nums);
-		std::vector<bool> encode();
-		std::vector<uint32_t> decode(std::vector<bool> sequence);
-		void printEncoded();
-		size_t getEncodedSizeBits();
-		size_t getOriginalSizeBits();
+class EliasGammaEncoder : public Encoder {
+public:
+    EliasGammaEncoder(const std::vector<uint32_t>& nums);
+    std::vector<bool> encode() override;
+    std::vector<uint32_t> decode(const std::vector<bool>& sequence) override;
 };
-
