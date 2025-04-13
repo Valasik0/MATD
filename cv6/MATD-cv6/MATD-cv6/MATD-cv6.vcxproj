@@ -128,12 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EliasGammaEncoder.cpp" />
+    <ClCompile Include="Encoder.cpp" />
     <ClCompile Include="FibonacciEncoder.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UnaryEncoder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EliasGammaEncoder.h" />
+    <ClInclude Include="Encoder.h" />
     <ClInclude Include="FibonacciEncoder.h" />
     <ClInclude Include="UnaryEncoder.h" />
   </ItemGroup>
