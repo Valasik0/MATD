@@ -158,7 +158,7 @@ bool findDocIDInIndex(const std::unordered_map<std::string, std::vector<uint32_t
 
 int main() {
 	
-	std::vector<uint32_t> nums = { 1, 2, 3, 4, 5 };
+	std::vector<uint32_t> nums = {0, 1, 2, 3, 5, 4, 8,20,100 };
 	UnaryEncoder ue = UnaryEncoder();
 	std::vector<bool> encodedUe = ue.encode(nums);
 	ue.printEncoded();
@@ -168,7 +168,7 @@ int main() {
 
 	std::cout << "Decoded sequence: ";
 	for (uint32_t val : ue.decode(encodedUe))
-		std::cout << val;
+		std::cout << val << " ";
 
 	std::cout << std::endl << "------------------------------" << std::endl;
 
@@ -181,7 +181,7 @@ int main() {
 
 	std::cout << "Decoded sequence: ";
 	for (uint32_t val : eg.decode(encoded))
-		std::cout << val;
+		std::cout << val << " ";
 
 	std::cout << std::endl << "------------------------------" << std::endl;
 
@@ -195,7 +195,6 @@ int main() {
 	std::cout << "Decoded sequence: ";
 	for (uint32_t val : fe.decode(encodedFib))
 		std::cout << val << " ";
-	std::cout << std::endl;
 
 	std::cout << std::endl << "------------------------------" << std::endl;
 
@@ -214,7 +213,7 @@ int main() {
 	size_t sizeBefore = 0;
 	size_t sizeAfter = 0;
 
-	auto compressedIndex = compressIndex(invertedIndex, egTest, sizeBefore, sizeAfter);
+	auto compressedIndexUE = compressIndex(invertedIndex, ueTest, sizeBefore, sizeAfter);
 
 	/*
 	std::cout << "\nCompressed index:\n";
@@ -226,7 +225,7 @@ int main() {
 		std::cout << std::endl;
 	}*/
 
-	auto decompressedIndex = decompressIndex(compressedIndex, egTest);
+	auto decompressedIndexUE = decompressIndex(compressedIndexUE, ueTest);
 	/*
 	std::cout << "\nDecompressed index:\n";
 	for (const auto& entry : decompressedIndex) {
@@ -236,9 +235,31 @@ int main() {
 		}
 		std::cout << std::endl;
 	}*/
-	
+	std::cout << "Unary encoder: " << std::endl;
 	std::cout << "Before compression: " << sizeBefore << "b" << std::endl;
 	std::cout << "After compression: " << sizeAfter << "b" << std::endl;
+
+	sizeBefore = 0;
+	sizeAfter = 0;
+
+	auto compressedIndexFE = compressIndex(invertedIndex, feTest, sizeBefore, sizeAfter);
+	auto decompressedIndexFE = decompressIndex(compressedIndexFE, feTest);
+
+	std::cout << "Fibonacci encoder: " << std::endl;
+	std::cout << "Before compression: " << sizeBefore << "b" << std::endl;
+	std::cout << "After compression: " << sizeAfter << "b" << std::endl;
+	
+
+	sizeBefore = 0;
+	sizeAfter = 0;
+
+	auto compressedIndexEG= compressIndex(invertedIndex, egTest, sizeBefore, sizeAfter);
+	auto decompressedIndexEG = decompressIndex(compressedIndexFE, egTest);
+	std::cout << "Elias gamma encoder: " << std::endl;
+	std::cout << "Before compression: " << sizeBefore << "b" << std::endl;
+	std::cout << "After compression: " << sizeAfter << "b" << std::endl;
+
+	
 
 	return 0;
 }

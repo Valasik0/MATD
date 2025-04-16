@@ -20,33 +20,31 @@ std::vector<bool> FibonacciEncoder::encode(const std::vector<uint32_t>& data) {
 
     for (uint32_t num : data) {
         if (num == 0) {
-            // Speciální pøípad pro 0
+            //pripad pro 0
             encodedBits.push_back(1);
             encodedBits.push_back(1);
             continue;
         }
 
-        // Vygenerujeme Fibonacciho posloupnost až do hodnoty num
+        //generuju Fib az do num
         std::vector<uint32_t> fib = fibonacci(num);
         
-        // Vytvoøíme kódové slovo (zatím bez koncové jednièky)
-        std::vector<bool> codeword(fib.size(), false);
+        //alokuju potrebnou delku kodovaneho slova (zatim 0)
+        std::vector<bool> codeword(fib.size(), 0);
         
-        // Kódujeme èíslo
+        //koduju cislo jdu odzadu
         uint32_t remainder = num;
         for (int i = fib.size() - 1; i >= 0; i--) {
             if (fib[i] <= remainder) {
-                codeword[i] = true;
+                codeword[i] = 1;
                 remainder -= fib[i];
             }
         }
         
-        // Pøidáme kódové slovo do výsledku
         for (bool bit : codeword) {
             encodedBits.push_back(bit);
         }
-        
-        // Pøidáme koncovou jednièku
+
         encodedBits.push_back(1);
     }
 
@@ -67,25 +65,24 @@ std::vector<uint32_t> FibonacciEncoder::decode(const std::vector<bool>& sequence
             codeword.push_back(bit);
             
             if (prevBit && bit) {
-                // Našli jsme dvì po sobì jdoucí jednièky
+                //dve po sobe jdouci 1
                 break;
             }
             
             prevBit = bit;
         }
         
-        // Speciální pøípad pro kód "11" (reprezentuje 0)
+        //pripad pro 0
         if (codeword.size() == 2 && codeword[0] && codeword[1]) {
             decoded.push_back(0);
             continue;
         }
         
-        // Dekódujeme èíslo
+        //decoding
         uint32_t num = 0;
-        std::vector<uint32_t> fib = fibonacci(1000000); // Generujeme dostateènì velkou Fibonacciho posloupnost
+        std::vector<uint32_t> fib = fibonacci(1000000);
         
-        // Seèteme Fibonacciho èísla odpovídající jednièkám v kódovém slovì
-        // (ignorujeme poslední jednièku, která je jen oddìlovaè)
+        //sectu fib cisla kde je jedna - igonruju posledni jednicu (oddelovac)
         for (size_t j = 0; j < codeword.size() - 1; j++) {
             if (codeword[j] && j < fib.size()) {
                 num += fib[j];
