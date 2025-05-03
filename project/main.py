@@ -105,8 +105,8 @@ X, y = create_context_target_pairs(tokens, window_size=2)
 vocab_size = len(vocab)
 embedding_dim = 100
 
-E = np.random.normal(0, 0.1, (vocab_size, embedding_dim))
-W = np.random.normal(0, 0.1, (embedding_dim, vocab_size))
+E = np.random.normal(0, 0.01, (vocab_size, embedding_dim))
+W = np.random.normal(0, 0.01, (embedding_dim, vocab_size))
 b = np.zeros(vocab_size)
 
 train(X, y, E, W, b, epochs=40, learning_rate=0.1)
