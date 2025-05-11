@@ -98,47 +98,48 @@ def find_nearest(word: str, vocab: Dict[str, int], E: np.ndarray, topn: int = 5)
     return sims[:topn]
 
 
-text = open_and_read_file('czech_news_content.txt')
-tokens, vocab = tokenize(text)
+if __name__ == "__main__":
+    text = open_and_read_file('czech_news_content.txt')
+    tokens, vocab = tokenize(text)
 
-X, y = create_context_target_pairs(tokens, window_size=2)
-vocab_size = len(vocab)
-embedding_dim = 100
+    X, y = create_context_target_pairs(tokens, window_size=2)
+    vocab_size = len(vocab)
+    embedding_dim = 100
 
-E = np.random.normal(0, 0.1, (vocab_size, embedding_dim))
-W = np.random.normal(0, 0.1, (embedding_dim, vocab_size))
-b = np.zeros(vocab_size)
+    E = np.random.normal(0, 0.01, (vocab_size, embedding_dim))
+    W = np.random.normal(0, 0.01, (embedding_dim, vocab_size))
+    b = np.zeros(vocab_size)
 
-train(X, y, E, W, b, epochs=40, learning_rate=0.1)
+    train(X, y, E, W, b, epochs=40, learning_rate=0.1)
 
-my_word = "mluvčí"
+    my_word = "mluvčí"
 
-nearest_words = find_nearest(my_word, vocab, E, topn=10)
-nearest_word_list = [w for w, _ in nearest_words]
-nearest_indices = [vocab[w] for w in nearest_word_list]
-print(f"Nejbližší slova k {my_word}:")
-for word, sim in nearest_words:
-    print(f"{word}: {sim:.4f}")
+    nearest_words = find_nearest(my_word, vocab, E, topn=10)
+    nearest_word_list = [w for w, _ in nearest_words]
+    nearest_indices = [vocab[w] for w in nearest_word_list]
+    print(f"Nejbližší slova k {my_word}:")
+    for word, sim in nearest_words:
+        print(f"{word}: {sim:.4f}")
 
-all_indices = set(range(1, len(vocab)))
-used_indices = set(nearest_indices)
-idx_to_word = {idx: word for word, idx in vocab.items()}
-random_indices = random.sample(list(all_indices - used_indices), 10)
-random_word_list = [idx_to_word[i] for i in random_indices]
+    all_indices = set(range(1, len(vocab)))
+    used_indices = set(nearest_indices)
+    idx_to_word = {idx: word for word, idx in vocab.items()}
+    random_indices = random.sample(list(all_indices - used_indices), 10)
+    random_word_list = [idx_to_word[i] for i in random_indices]
 
-words = nearest_word_list + random_word_list
-indices = nearest_indices + random_indices
-vectors = E[indices]
+    words = nearest_word_list + random_word_list
+    indices = nearest_indices + random_indices
+    vectors = E[indices]
 
-pca = PCA(n_components=2)
-reduced = pca.fit_transform(vectors)
+    pca = PCA(n_components=2)
+    reduced = pca.fit_transform(vectors)
 
-plt.figure(figsize=(8, 8))
-plt.scatter(reduced[:, 0], reduced[:, 1])
-for i, word in enumerate(words):
-    if word in vocab:
-        plt.annotate(word, (reduced[i, 0], reduced[i, 1]))
-plt.title("Vizualizace embeddingů pomocí PCA")
-plt.xlabel("PCA 1")
-plt.ylabel("PCA 2")
-plt.show()
+    plt.figure(figsize=(8, 8))
+    plt.scatter(reduced[:, 0], reduced[:, 1])
+    for i, word in enumerate(words):
+        if word in vocab:
+            plt.annotate(word, (reduced[i, 0], reduced[i, 1]))
+    plt.title("Vizualizace embeddingů pomocí PCA")
+    plt.xlabel("PCA 1")
+    plt.ylabel("PCA 2")
+    plt.show()
