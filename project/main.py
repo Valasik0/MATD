@@ -115,7 +115,7 @@ if __name__ == "__main__":
     
     X, y = create_context_target_pairs(tokens, window_size=2)
     vocab_size = len(vocab)
-    embedding_dim = 100
+    embedding_dim = 50
 
     E = np.random.normal(0, 0.01, (vocab_size, embedding_dim))
     W = np.random.normal(0, 0.01, (embedding_dim, vocab_size))
@@ -130,7 +130,7 @@ if __name__ == "__main__":
 
     print(f"Trénování modelu pro slovo: {my_word}")
 
-    train(X, y, E, W, b, epochs=1, learning_rate=0.01)
+    train(X, y, E, W, b, epochs=15, learning_rate=0.01)
 
     
 

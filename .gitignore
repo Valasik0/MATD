@@ -1,4 +1,5 @@
 *.txt
+*.png
 __pycache__/
 
 # Visual Studio
